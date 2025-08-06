@@ -14,7 +14,6 @@ import AdminPage from "@/components/pages/AdminPage"
 import AdminUsersPage from "@/components/pages/AdminUsersPage"
 import AdminProgramsPage from "@/components/pages/AdminProgramsPage"
 import AdminLecturesPage from "@/components/pages/AdminLecturesPage"
-import AdminPostsPage from "@/components/pages/AdminPostsPage"
 import { seedData } from "@/services/api/seedService"
 
 function App() {
@@ -73,13 +72,12 @@ function App() {
             <Route path="/insight/:slug" element={<PostDetailPage />} />
             <Route path="/reviews" element={<ReviewsPage currentUser={currentUser} />} />
             {currentUser && <Route path="/profile" element={<ProfilePage currentUser={currentUser} />} />}
-            {currentUser?.is_admin && (
+{currentUser?.is_admin && (
               <>
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/admin/users" element={<AdminUsersPage />} />
                 <Route path="/admin/programs" element={<AdminProgramsPage />} />
                 <Route path="/admin/lectures" element={<AdminLecturesPage />} />
-                <Route path="/admin/posts" element={<AdminPostsPage />} />
               </>
             )}
           </Routes>
