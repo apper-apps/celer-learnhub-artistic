@@ -266,13 +266,26 @@ const ProgramDetailPage = ({ currentUser }) => {
       {/* Curriculum */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-12">
-            <h2 className="text-3xl font-display font-bold text-white mb-4">
-              Course Curriculum
-            </h2>
-            <p className="text-gray-400 max-w-3xl">
-              Explore our comprehensive curriculum designed to take you from beginner to expert level.
-            </p>
+<div className="mb-12">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-3xl font-display font-bold text-white mb-4">
+                  Course Curriculum
+                </h2>
+                <p className="text-gray-400 max-w-3xl">
+                  Explore our comprehensive curriculum designed to take you from beginner to expert level.
+                </p>
+              </div>
+              
+              {currentUser?.is_admin && slug === "membership" && (
+                <Link to="/admin/lectures">
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                    <ApperIcon name="Plus" className="w-4 h-4 mr-2" />
+                    Add Lecture
+                  </Button>
+                </Link>
+              )}
+            </div>
           </div>
 
           {lectures.length === 0 ? (
