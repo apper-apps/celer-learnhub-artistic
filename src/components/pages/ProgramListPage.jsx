@@ -1,47 +1,32 @@
-import React, { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import ApperIcon from "@/components/ApperIcon"
-import Loading from "@/components/ui/Loading"
-import Error from "@/components/ui/Error"
-import Empty from "@/components/ui/Empty"
-import ProgramCard from "@/components/organisms/ProgramCard"
-import SearchBar from "@/components/molecules/SearchBar"
-import { programService } from "@/services/api/programService"
-import { lectureService } from "@/services/api/lectureService"
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { programService } from "@/services/api/programService";
+import ApperIcon from "@/components/ApperIcon";
+import SearchBar from "@/components/molecules/SearchBar";
+import ProgramCard from "@/components/organisms/ProgramCard";
+import Loading from "@/components/ui/Loading";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
 
-const ProgramListPage = () => {
-  const [programs, setPrograms] = useState([])
+function ProgramListPage() {
+const [programs, setPrograms] = useState([])
   const [filteredPrograms, setFilteredPrograms] = useState([])
-  const [lectureCounts, setLectureCounts] = useState({})
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState("")
 
-  const loadData = async () => {
+const loadData = async () => {
     try {
-      setIsLoading(true)
-      setError("")
-
-      const [programsData, lecturesData] = await Promise.all([
-        programService.getAll(),
-        lectureService.getAll()
-      ])
-
+      setLoading(true)
+      const programsData = await programService.getAll()
+      
       setPrograms(programsData)
       setFilteredPrograms(programsData)
-
-      // Count lectures per program
-      const counts = {}
-      programsData.forEach(program => {
-        const count = lecturesData.filter(lecture => lecture.program_id === program.Id).length
-        counts[program.Id] = count
-      })
-      setLectureCounts(counts)
-
     } catch (err) {
-      setError("Failed to load programs")
+      setError(err.message || 'Failed to load programs')
+      console.error('Programs load error:', err)
     } finally {
-      setIsLoading(false)
+      setLoading(false)
     }
   }
 
@@ -61,7 +46,7 @@ const ProgramListPage = () => {
     }
   }, [searchTerm, programs])
 
-  if (isLoading) {
+if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
@@ -156,9 +141,9 @@ const ProgramListPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                   >
-                    <ProgramCard 
-                      program={program} 
-                      lectureCount={lectureCounts[program.Id] || 0}
+<ProgramCard
+                      program={program}
+                      className="w-full"
                     />
                   </motion.div>
                 ))}
