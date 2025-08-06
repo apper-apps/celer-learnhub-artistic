@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { ToastContainer } from "react-toastify"
-import Layout from "@/components/organisms/Layout"
-import HomePage from "@/components/pages/HomePage"
-import ProgramListPage from "@/components/pages/ProgramListPage"
-import ProgramDetailPage from "@/components/pages/ProgramDetailPage"
-import LectureViewPage from "@/components/pages/LectureViewPage"
-import InsightPage from "@/components/pages/InsightPage"
-import PostDetailPage from "@/components/pages/PostDetailPage"
-import ReviewsPage from "@/components/pages/ReviewsPage"
-import ProfilePage from "@/components/pages/ProfilePage"
-import AdminPage from "@/components/pages/AdminPage"
-import AdminUsersPage from "@/components/pages/AdminUsersPage"
-import AdminProgramsPage from "@/components/pages/AdminProgramsPage"
-import AdminLecturesPage from "@/components/pages/AdminLecturesPage"
-import { seedData } from "@/services/api/seedService"
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "@/index.css";
+import Layout from "@/components/organisms/Layout";
+import AdminProgramsPage from "@/components/pages/AdminProgramsPage";
+import AdminUsersPage from "@/components/pages/AdminUsersPage";
+import AdminLecturesPage from "@/components/pages/AdminLecturesPage";
+import HomePage from "@/components/pages/HomePage";
+import ProgramListPage from "@/components/pages/ProgramListPage";
+import InsightPage from "@/components/pages/InsightPage";
+import LectureViewPage from "@/components/pages/LectureViewPage";
+import ProfilePage from "@/components/pages/ProfilePage";
+import AdminPage from "@/components/pages/AdminPage";
+import ReviewsPage from "@/components/pages/ReviewsPage";
+import PostDetailPage from "@/components/pages/PostDetailPage";
+import ProgramDetailPage from "@/components/pages/ProgramDetailPage";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
@@ -23,14 +23,12 @@ function App() {
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        // Seed data on app initialization
-        await seedData()
-        
-        // Check for existing user session
+        console.log('Initializing app...')
         const savedUser = localStorage.getItem("currentUser")
         if (savedUser) {
           setCurrentUser(JSON.parse(savedUser))
         }
+        console.log('App initialized successfully')
       } catch (error) {
         console.error("Failed to initialize app:", error)
       } finally {
